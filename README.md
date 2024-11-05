@@ -1,66 +1,92 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Proyecto Hoteles Decameron - API REST
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este proyecto es una API REST desarrollada en Laravel para gestionar los hoteles de la cadena Decameron en Colombia. El sistema permite el registro de hoteles, incluyendo datos tributarios y la asignación de tipos y configuraciones de habitaciones.
 
-## About Laravel
+## Requisitos del Proyecto
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+La API proporciona funcionalidades para:
+1. Registrar hoteles con datos básicos (nombre, dirección, ciudad, NIT, número de habitaciones).
+2. Asignar tipos de habitaciones (Estándar, Junior y Suite) con restricciones en las acomodaciones:
+   - **Estándar**: Sencilla o Doble.
+   - **Junior**: Triple o Cuádruple.
+   - **Suite**: Sencilla, Doble o Triple.
+3. Validar las siguientes condiciones:
+   - La cantidad de habitaciones no puede superar el límite por hotel.
+   - No se permiten hoteles duplicados.
+   - Evitar duplicación en tipos y acomodaciones de habitaciones en un mismo hotel.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Tecnologías y Requisitos Técnicos
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Backend**: Laravel (PHP 8.x)
+- **Base de Datos**: PostgreSQL
+- **Despliegue**: Preparado para entorno en la nube.
+- **API**: Totalmente RESTful, pensada para usarse desde un front desacoplado.
+- **Navegadores Soportados**: Firefox y Chrome.
 
-## Learning Laravel
+## Instalación
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. **Clona el repositorio**:
+   ```bash
+   git clone <URL_DEL_REPOSITORIO>
+   cd nombre_del_proyecto
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+2. **Instala las dependencias**:
+   ```bash
+   composer install
+3. **Configura el archivo .env**:
+   ```bash
+   cp .env.example .env
+   ```
+   **Configura la conexión a la base de datos PostgreSQL en .env**:
+   ```bash
+   DB_CONNECTION=pgsql
+   DB_HOST=127.0.0.1
+   DB_PORT=5432
+   DB_DATABASE=nombre_de_tu_bd
+   DB_USERNAME=usuario_bd
+   DB_PASSWORD=contraseña_bd
+   ```
+4. **Genera la clave de la aplicación**:
+   ```bash
+   php artisan key:generate
+5. **Realiza las migraciones**:
+   ```bash
+   php artisan migrate
+6. **Carga datos de ejemplo**:
+   ```bash
+   php artisan db:seed
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Endpoints Principales
 
-## Laravel Sponsors
+### Hoteles:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- `POST /api/hotels`: Registrar un nuevo hotel.
+- `GET /api/hotels`: Listar todos los hoteles.
+- `GET /api/hotels/{id}`: Ver detalles de un hotel específico.
+- `PUT /api/hotels/{id}`: Actualizar información de un hotel.
+- `DELETE /api/hotels/{id}`: Eliminar un hotel.
 
-### Premium Partners
+### Habitaciones:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+- `POST /api/hotels/{hotel_id}/rooms`: Asignar una habitación a un hotel.
+- `GET /api/hotels/{hotel_id}/rooms`: Listar las habitaciones de un hotel.
+- `PUT /api/hotels/{hotel_id}/rooms/{id}`: Actualizar una habitación específica.
+- `DELETE /api/hotels/{hotel_id}/rooms/{id}`: Eliminar una habitación de un hotel.
 
-## Contributing
+## Requisitos y Buenas Prácticas
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- **Patrones de diseño**: Siguiendo principios SOLID y patrones de diseño para código modular y mantenible.
+- **Documentación**: Incluye diagramas UML y comentarios en el código para facilitar la comprensión.
+- **Dump de la Base de Datos**: Proporcionar un archivo `db.sql` listo para restaurar en PostgreSQL.
 
-## Code of Conduct
+## Nota para el Despliegue
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Asegúrate de seguir los pasos de instalación y configuración de forma cuidadosa para un despliegue correcto. Si surge alguna duda, revisa el código y la documentación, o contacta al desarrollador.
 
-## Security Vulnerabilities
+## Licencia
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Este proyecto es propiedad de Hoteles Decameron de Colombia. No se permite su uso fuera del contexto de la empresa sin autorización.
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
