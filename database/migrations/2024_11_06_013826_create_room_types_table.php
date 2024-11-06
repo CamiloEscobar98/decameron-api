@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('room_types', function (Blueprint $table) {
             $table->tinyIncrements('id');
 
-            $table->string('name', 50)->unique('unique_name');
+            $table->string('name', 50)->unique('unique_name_room_types');
 
             $table->timestamps();
         });
