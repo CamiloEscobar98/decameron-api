@@ -24,7 +24,7 @@ class Hotel extends Model
      *
      * @var array
      */
-    protected $fillable = [HotelEnum::Fillable];
+    protected $fillable = HotelEnum::Fillable;
 
     /**
      * Scope a query to only include Id
@@ -61,7 +61,7 @@ class Hotel extends Model
      * 
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeBy($query, $value)
+    public function scopeByName($query, $value)
     {
         return $query->where(HotelEnum::Name, 'like', "%$value%");
     }
