@@ -2,15 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Enums\RoomTypeEnum;
 
 class RoomType extends Model
 {
-    /** @use HasFactory<\Database\Factories\RoomTypeFactory> */
-    use HasFactory;
 
     /**
      * The table associated with the model.
