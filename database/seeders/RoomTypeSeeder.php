@@ -26,7 +26,7 @@ class RoomTypeSeeder extends Seeder
             ));
 
             $this->command->getOutput()->progressAdvance();
-            sleep(1);  // Agrega un pequeño retraso entre creaciones.
+            sleep(1);
         }
 
         $this->command->getOutput()->progressFinish();
