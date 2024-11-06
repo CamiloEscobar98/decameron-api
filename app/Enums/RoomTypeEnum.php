@@ -10,4 +10,8 @@ abstract class RoomTypeEnum
     const Name = 'name';
 
     const Fillable = [self::Name];
+
+    const StandarId = 1;
+    const JuniorId = 2;
+    const SuiteId = 3;
 }

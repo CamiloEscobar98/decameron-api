@@ -10,4 +10,9 @@ abstract class RoomAccommodationEnum
     const Name = 'name';
 
     const Fillable = [self::Name];
+
+    const SimpleId = 1;
+    const DoubleId = 2;
+    const TripleId = 3;
+    const QuadrupleId = 4;
 }
