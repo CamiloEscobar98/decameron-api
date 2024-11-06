@@ -21,7 +21,7 @@ class HotelSeeder extends Seeder
 
         Hotel::factory()->count($hotelCount)->create()->each(function ($hotel) {
             $this->command->info(sprintf(
-                "Hotel creado: %s - NIT: %s - Ciudad: %s - Dirección: %s - Habitaciones: %d",
+                "\nHotel creado: %s - NIT: %s - Ciudad: %s - Dirección: %s - Habitaciones: %d \n",
                 $hotel->{HotelEnum::Name},
                 $hotel->{HotelEnum::Nit},
                 $hotel->{HotelEnum::CityName},
@@ -33,6 +33,6 @@ class HotelSeeder extends Seeder
         });
 
         $this->command->getOutput()->progressFinish();
-        $this->command->info("Se han creado {$hotelCount} hoteles exitosamente.");
+        $this->command->info("\nSe han creado {$hotelCount} hoteles exitosamente.\n");
     }
 }

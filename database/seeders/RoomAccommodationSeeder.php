@@ -20,16 +20,16 @@ class RoomAccommodationSeeder extends Seeder
         foreach ($accommodations as $index => $name) {
             $accommodation = RoomAccommodation::create(['name' => $name]);
             $this->command->info(sprintf(
-                "Acomodación creada: %s - ID: %d",
+                "\nAcomodación creada: %s - ID: %d \n",
                 $accommodation->name,
                 $accommodation->id
             ));
 
             $this->command->getOutput()->progressAdvance();
-            sleep(1);
+            usleep(500000);
         }
 
         $this->command->getOutput()->progressFinish();
-        $this->command->info("Acomodaciones de habitación creadas con éxito.");
+        $this->command->info("\nAcomodaciones de habitación creadas con éxito.\n");
     }
 }

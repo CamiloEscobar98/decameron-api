@@ -21,15 +21,15 @@ class RoomTypeSeeder extends Seeder
             $roomType = RoomType::create(['name' => $type]);
 
             $this->command->info(sprintf(
-                "Room Type creado: Nombre: %s",
+                "\nRoom Type creado: Nombre: %s \n",
                 $roomType->name
             ));
 
             $this->command->getOutput()->progressAdvance();
-            sleep(1);
+            usleep(500000);
         }
 
         $this->command->getOutput()->progressFinish();
-        $this->command->info("Se han creado todos los tipos de habitación: " . implode(', ', $roomTypes));
+        $this->command->info("\nSe han creado todos los tipos de habitación.\n");
     }
 }
