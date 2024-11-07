@@ -13,11 +13,16 @@ use App\Repositories\RoomTypeRepository;
 
 class RoomTypeController extends Controller
 {
-    protected $roomTypeRepository;
+    protected $repository;
 
+    /**
+     * RoomTypeController constructor.
+     *
+     * @param RoomTypeRepository $roomTypeRepository
+     */
     public function __construct(RoomTypeRepository $roomTypeRepository)
     {
-        $this->roomTypeRepository = $roomTypeRepository;
+        $this->repository = $roomTypeRepository;
     }
 
     /**
@@ -27,7 +32,7 @@ class RoomTypeController extends Controller
      */
     public function index(): JsonResponse
     {
-        $roomTypes = $this->roomTypeRepository->all();
+        $roomTypes = $this->repository->all();
         return response()->json($roomTypes, Response::HTTP_OK);
     }
 
@@ -35,11 +40,12 @@ class RoomTypeController extends Controller
      * Store a newly created room type.
      *
      * @param StoreRoomTypeRequest $request
+     * 
      * @return JsonResponse
      */
     public function store(StoreRoomTypeRequest $request): JsonResponse
     {
-        $roomType = $this->roomTypeRepository->create($request->validated());
+        $roomType = $this->repository->create($request->validated());
         return response()->json($roomType, Response::HTTP_CREATED);
     }
 
@@ -47,11 +53,12 @@ class RoomTypeController extends Controller
      * Display the specified room type.
      *
      * @param int $id
+     * 
      * @return JsonResponse
      */
     public function show(int $id): JsonResponse
     {
-        $roomType = $this->roomTypeRepository->find($id);
+        $roomType = $this->repository->find($id);
         return response()->json($roomType, Response::HTTP_OK);
     }
 
@@ -60,11 +67,12 @@ class RoomTypeController extends Controller
      *
      * @param UpdateRoomTypeRequest $request
      * @param int $id
+     * 
      * @return JsonResponse
      */
     public function update(UpdateRoomTypeRequest $request, int $id): JsonResponse
     {
-        $roomType = $this->roomTypeRepository->update($id, $request->validated());
+        $roomType = $this->repository->update($id, $request->validated());
         return response()->json($roomType, Response::HTTP_OK);
     }
 
@@ -72,11 +80,12 @@ class RoomTypeController extends Controller
      * Remove the specified room type.
      *
      * @param int $id
+     * 
      * @return JsonResponse
      */
     public function destroy(int $id): JsonResponse
     {
-        $this->roomTypeRepository->delete($id);
+        $this->repository->delete($id);
         return response()->json(['message' => 'Room type deleted successfully'], Response::HTTP_OK);
     }
 }

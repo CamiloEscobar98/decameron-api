@@ -23,12 +23,18 @@ class StoreHotelRequest extends FormRequest
      */
     public function rules(): array
     {
+        logger()->info('Executing validation rules in StoreHotelRequest');
         return [
-            HotelEnum::Nit => 'required|string|max:255|unique:hotels',
-            HotelEnum::Name => 'required|string|max:255',
-            HotelEnum::CityName => 'required|string|max:255',
-            HotelEnum::Address => 'required|string|max:255',
-            HotelEnum::CountRooms => 'required|integer|min:1',
+            HotelEnum::Name => ['required', 'string', 'max:255'],
+            HotelEnum::Nit => ['required', 'string', 'max:255', sprintf('unique:%s,%s', HotelEnum::Table, HotelEnum::Nit)],
+            HotelEnum::CityName => ['required', 'string', 'max:255'],
+            HotelEnum::Address => ['required', 'string', 'max:255'],
+            HotelEnum::CountRooms => ['required', 'integer', 'min:1'],
         ];
+    }
+
+    public function wantsJson()
+    {
+        return true;
     }
 }

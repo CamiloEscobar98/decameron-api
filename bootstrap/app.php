@@ -10,8 +10,7 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__ . '/../routes/console.php',
         web: __DIR__ . '/../routes/web.php',
         then: function () {
-            Route::middleware('api')
-                ->prefix('api')
+            Route::prefix('api')
                 ->name('api.')
                 ->group(base_path('routes/api.php'));
         },
@@ -19,7 +18,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->validateCsrfTokens(except: [
+            'api/*',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

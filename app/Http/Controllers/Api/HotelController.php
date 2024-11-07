@@ -4,16 +4,19 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 
 use App\Http\Requests\StoreHotelRequest;
 use App\Http\Requests\UpdateHotelRequest;
-
 use App\Http\Controllers\Controller;
+
 use App\Repositories\HotelRepository;
+
+use App\Enums\HotelEnum;
 
 class HotelController extends Controller
 {
-    protected $hotelRepository;
+    protected $repository;
 
     /**
      * HotelController constructor.
@@ -22,26 +25,35 @@ class HotelController extends Controller
      */
     public function __construct(HotelRepository $hotelRepository)
     {
-        $this->hotelRepository = $hotelRepository;
+        $this->repository = $hotelRepository;
     }
 
     /**
      * Display a listing of hotels with optional filters.
      *
-     * @param StoreHotelRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param Request $request
+     * 
+     * @return JsonResponse
      */
     public function index(Request $request)
     {
-        $filters = $request->only(['id', 'nit', 'name', 'city_name']);
-        $hotels = $this->hotelRepository->search($filters);
+        $filters = $request->only([HotelEnum::Id, HotelEnum::Nit, HotelEnum::Name, HotelEnum::CityName]);
+        $hotels = $this->repository->search($filters);
 
         return response()->json($hotels, Response::HTTP_OK);
     }
 
-    public function store(StoreHotelRequest $request)
+    /**
+     * Store a newly created Room Accommodation in storage.
+     * 
+     * @param StoreHotelRequest $request
+     * 
+     * @return JsonResponse
+     */
+    public function store(StoreHotelRequest $request): JsonResponse
     {
-        $hotel = $this->hotelRepository->create($request->validated());
+        // $request->validate(['nit' => ['required']]);
+        $hotel = $this->repository->create($request->validated());
 
         return response()->json($hotel, Response::HTTP_CREATED);
     }
@@ -50,11 +62,12 @@ class HotelController extends Controller
      * Display the specified hotel.
      *
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * 
+     * @return JsonResponse
      */
     public function show($id)
     {
-        $hotel = $this->hotelRepository->find($id);
+        $hotel = $this->repository->find($id);
 
         if (!$hotel) {
             return response()->json(['error' => 'Hotel not found'], Response::HTTP_NOT_FOUND);
@@ -68,11 +81,12 @@ class HotelController extends Controller
      *
      * @param UpdateHotelRequest $request
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * 
+     * @return JsonResponse
      */
-    public function update(UpdateHotelRequest $request, $id)
+    public function update(UpdateHotelRequest $request, int $id)
     {
-        $hotel = $this->hotelRepository->update($id, $request->validated());
+        $hotel = $this->repository->update($id, $request->validated());
 
         if (!$hotel) {
             return response()->json(['error' => 'Hotel not found or not updated'], Response::HTTP_NOT_FOUND);
@@ -85,11 +99,12 @@ class HotelController extends Controller
      * Remove the specified hotel from storage.
      *
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
+     * 
+     * @return JsonResponse
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
-        $deleted = $this->hotelRepository->delete($id);
+        $deleted = $this->repository->delete($id);
 
         if (!$deleted) {
             return response()->json(['error' => 'Hotel not found or not deleted'], Response::HTTP_NOT_FOUND);
